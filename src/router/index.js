@@ -7,10 +7,11 @@ const routes = [
     path: '/',
     name: 'EventList',
     component: EventList,
+    props: route => ({ page: parseInt(route.query.page) || 1 }),
   },
   {
     path: '/about',
-    name: 'about',
+    name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
