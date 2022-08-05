@@ -29,7 +29,6 @@
 // @ is an alias to /src
 import EventCard from '@/components/EventCard.vue'
 import Eventservics from '@/services/Eventservics.js'
-import NProgress from 'nprogress'
 
 export default {
   name: 'EventsList',
@@ -44,7 +43,6 @@ export default {
     }
   },
   beforeRouteEnter(routeTo, routeFrom, next) {
-    NProgress.start()
     Eventservics.getEvents(2, parseInt(routeTo.query.page || 1))
       .then(response => {
         next(VM => {
@@ -55,12 +53,8 @@ export default {
       .catch(() => {
         next({ name: 'NetworkError' })
       })
-      .finally(() => {
-        NProgress.done()
-      })
   },
   beforeRouteUpdate(routeTo) {
-    NProgress.start()
     return Eventservics.getEvents(2, parseInt(routeTo.query.page || 1))
       .then(response => {
         this.events = response.data
@@ -68,9 +62,6 @@ export default {
       })
       .catch(() => {
         return { name: 'NetworkError' }
-      })
-      .finally(() => {
-        NProgress.done()
       })
   },
   computed: {
