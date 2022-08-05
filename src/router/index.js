@@ -5,6 +5,8 @@ import EventLayout from '../views/event/EventLayout.vue'
 import EventDetails from '../views/event/EventDetails.vue'
 import EventRegister from '../views/event/EventRegister.vue'
 import EventEdit from '../views/event/EventEdit.vue'
+import NotFound from '../views/NotFound.vue'
+import NetworkError from '../views/NetworkError.vue'
 
 const routes = [
   {
@@ -14,12 +16,16 @@ const routes = [
     props: route => ({ page: parseInt(route.query.page) || 1 }),
   },
   {
-    path: '/about',
+    path: '/about-us',
     name: 'About',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: AboutView,
+  },
+  {
+    path: '/about',
+    redirect: { name: 'About' },
   },
   {
     path: '/event/:id',
@@ -45,16 +51,23 @@ const routes = [
     ],
   },
   {
-    path: '/event/:id/register',
-    name: 'EventRegister',
-    props: true,
-    component: EventRegister,
+    path: '/:catch(.*)',
+    name: 'NotFound',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: NotFound,
   },
   {
-    path: '/event/:id/edit',
-    name: 'EventEdit',
+    path: '/404/:resource',
+    name: '404resource',
+    component: NotFound,
     props: true,
-    component: EventEdit,
+  },
+  {
+    path: '/network-error',
+    name: 'NetworkError',
+    component: NetworkError,
   },
 ]
 

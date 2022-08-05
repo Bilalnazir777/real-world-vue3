@@ -1,12 +1,39 @@
 <template>
-  <nav>
-    <router-link :to="{ name: 'EventList' }">Event</router-link> |
-    <router-link :to="{ name: 'About' }">About</router-link>
-  </nav>
-  <router-view />
+  <div id="app">
+    <div id="flashmessages" v-if="GlobalStore.flashMessages">
+      {{ GlobalStore.flashMessages }}
+    </div>
+    <nav>
+      <router-link :to="{ name: 'EventList' }">Event</router-link> |
+      <router-link :to="{ name: 'About' }">About</router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
 
+<script>
+export default {
+  inject: ['GlobalStore'],
+}
+</script>
+
 <style>
+@keyframes yellowfade {
+  from {
+    background: yellow;
+  }
+  to {
+    background: transparent;
+  }
+}
+/* #flashmessages {
+  transition: transform 1s;
+} */
+#flashmessages {
+  /* transform: rotate(90deg) scale(2) translateY(-50%) translateX(50%); */
+  animation-name: yellowfade;
+  animation-duration: 3s;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
