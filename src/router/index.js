@@ -24,6 +24,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: AboutView,
+    meta: { requireAuth: true },
   },
   {
     path: '/about',
@@ -92,11 +93,32 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  scrollBehavior(savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  },
 })
 
-router.beforeEach(() => {
+router.beforeEach((to, from) => {
   ///global route guards
   NProgress.start()
+  const notAuthorized = true
+  if (to.meta.requireAuth && notAuthorized) {
+    GlobalStore.flashMessage = 'sorry ,you are not authorized'
+
+    setTimeout(() => {
+      GlobalStore.flashMessage = ''
+    }, 3000)
+
+    if (from.href) {
+      return false
+    } else {
+      return { path: '/' }
+    }
+  }
 })
 router.afterEach(() => {
   NProgress.done()
